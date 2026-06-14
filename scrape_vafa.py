@@ -15,7 +15,7 @@ SEEDS = [
     },
     {
         'competition': 'Division 1 Women',
-        'round_url': 'PASTE_ROUND_URL_HERE'
+        'round_url': 'https://www.vafa.com.au/football/results/scores/?type=results&grade_id=dae84ac0-533d-4dee-8518-10db71bbf0e3&session_id=2af0bc11-6f71-4c82-93b5-d46fe9bc739f&season=2026&Round=1'
     }
 ]
 
