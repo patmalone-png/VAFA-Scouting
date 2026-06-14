@@ -1,0 +1,192 @@
+<!doctype html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>VAFA Women's Tracker</title>
+  <link rel="preconnect" href="https://api.fontshare.com">
+  <link href="https://api.fontshare.com/v2/css?f[]=satoshi@400,500,700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --text-sm: clamp(0.875rem, 0.8rem + 0.35vw, 1rem);
+      --text-base: clamp(1rem, 0.95rem + 0.25vw, 1.125rem);
+      --text-lg: clamp(1.125rem, 1rem + 0.75vw, 1.5rem);
+      --text-xl: clamp(1.5rem, 1.2rem + 1.25vw, 2.25rem);
+      --space-2: 0.5rem; --space-3: 0.75rem; --space-4: 1rem; --space-6: 1.5rem; --space-8: 2rem; --space-12: 3rem;
+      --color-bg: #f7f6f2; --color-surface: #f9f8f5; --color-surface-2: #fbfbf9; --color-border: #d4d1ca;
+      --color-text: #28251d; --color-text-muted: #7a7974; --color-primary: #01696f; --color-primary-hover: #0c4e54;
+      --radius-md: 0.5rem; --radius-lg: 0.75rem; --shadow-sm: 0 1px 2px rgba(0,0,0,.06); --shadow-md: 0 4px 12px rgba(0,0,0,.08);
+      --font-body: 'Satoshi', sans-serif;
+    }
+    [data-theme="dark"] { --color-bg:#171614; --color-surface:#1c1b19; --color-surface-2:#201f1d; --color-border:#393836; --color-text:#cdccca; --color-text-muted:#979694; --color-primary:#4f98a3; --color-primary-hover:#227f8b; --shadow-sm:0 1px 2px rgba(0,0,0,.2); --shadow-md:0 4px 12px rgba(0,0,0,.3); }
+    * { box-sizing: border-box; }
+    body { margin:0; font-family:var(--font-body); font-size:var(--text-base); background:var(--color-bg); color:var(--color-text); }
+    .wrap { max-width: 1180px; margin: 0 auto; padding: var(--space-6); }
+    header { display:flex; justify-content:space-between; align-items:center; gap:var(--space-4); padding: var(--space-6) 0; }
+    .brand { display:flex; align-items:center; gap:var(--space-3); font-weight:700; }
+    .logo { width:36px; height:36px; color:var(--color-primary); }
+    h1 { font-size: var(--text-xl); line-height:1.1; margin:0 0 var(--space-2); }
+    .muted { color:var(--color-text-muted); }
+    .hero { display:grid; grid-template-columns: 1.2fr .8fr; gap: var(--space-6); margin-bottom: var(--space-8); }
+    .panel { background:var(--color-surface); border:1px solid var(--color-border); border-radius:var(--radius-lg); box-shadow:var(--shadow-sm); padding:var(--space-6); }
+    .controls { display:grid; grid-template-columns: repeat(4, minmax(0,1fr)); gap:var(--space-4); margin-bottom:var(--space-6); }
+    label { display:block; font-size:var(--text-sm); margin-bottom:var(--space-2); color:var(--color-text-muted); }
+    select, input, button { width:100%; padding:.8rem .9rem; border-radius:var(--radius-md); border:1px solid var(--color-border); background:var(--color-surface-2); color:var(--color-text); }
+    button { background:var(--color-primary); color:white; border:none; font-weight:700; cursor:pointer; }
+    button:hover { background:var(--color-primary-hover); }
+    .ghost { background:transparent; color:var(--color-text); border:1px solid var(--color-border); }
+    .stats { display:grid; grid-template-columns: repeat(3, minmax(0,1fr)); gap:var(--space-4); }
+    .stat { padding:var(--space-4); background:var(--color-surface-2); border-radius:var(--radius-md); border:1px solid var(--color-border); }
+    .stat .n { font-size:var(--text-lg); font-weight:700; }
+    table { width:100%; border-collapse: collapse; font-size:var(--text-sm); }
+    th, td { text-align:left; padding:.8rem; border-bottom:1px solid var(--color-border); vertical-align:top; }
+    th { color:var(--color-text-muted); font-weight:700; }
+    .toolbar { display:flex; gap:var(--space-3); margin-bottom:var(--space-4); }
+    .section-title { font-size:var(--text-lg); margin:0 0 var(--space-4); }
+    @media (max-width: 860px) { .hero,.controls,.stats { grid-template-columns:1fr; } .toolbar { flex-direction:column; } }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <header>
+      <div class="brand">
+        <svg class="logo" viewBox="0 0 48 48" fill="none" aria-label="VAFA Women's Tracker logo">
+          <path d="M8 34L20 12L28 28L40 10" stroke="currentColor" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+          <circle cx="40" cy="10" r="4" fill="currentColor"/>
+        </svg>
+        <div>VAFA Women's Tracker</div>
+      </div>
+      <button id="themeToggle" class="ghost" style="width:auto;">Toggle theme</button>
+    </header>
+
+    <section class="hero">
+      <div class="panel">
+        <h1>Best players and goal kickers by round</h1>
+        <p class="muted">Static GitHub Pages app fed by a scraper that writes JSON into the repository.</p>
+      </div>
+      <div class="panel stats" id="stats"></div>
+    </section>
+
+    <section class="panel">
+      <div class="controls">
+        <div>
+          <label for="competition">Competition</label>
+          <select id="competition"></select>
+        </div>
+        <div>
+          <label for="round">Round</label>
+          <select id="round"></select>
+        </div>
+        <div>
+          <label for="team">Team</label>
+          <select id="team"></select>
+        </div>
+        <div>
+          <label for="search">Player search</label>
+          <input id="search" placeholder="Search player or club" />
+        </div>
+      </div>
+      <div class="toolbar">
+        <button id="exportCsv">Export filtered CSV</button>
+        <button id="reset" class="ghost">Reset filters</button>
+      </div>
+      <div style="overflow:auto;">
+        <table>
+          <thead>
+            <tr>
+              <th>Competition</th>
+              <th>Round</th>
+              <th>Match</th>
+              <th>Team</th>
+              <th>Best players</th>
+              <th>Goal kickers</th>
+            </tr>
+          </thead>
+          <tbody id="rows"></tbody>
+        </table>
+      </div>
+    </section>
+  </div>
+<script>
+const state = { all: [], filtered: [] };
+const els = {
+  competition: document.getElementById('competition'),
+  round: document.getElementById('round'),
+  team: document.getElementById('team'),
+  search: document.getElementById('search'),
+  rows: document.getElementById('rows'),
+  stats: document.getElementById('stats')
+};
+function uniq(arr){ return [...new Set(arr)].filter(Boolean).sort((a,b)=>String(a).localeCompare(String(b), undefined, {numeric:true})); }
+function csvEscape(v){ const s = String(v ?? ''); return /[",\n]/.test(s) ? '"'+s.replaceAll('"','""')+'"' : s; }
+function renderStats(items){
+  const totalGoals = items.reduce((n,r)=> n + (r.goal_kickers||[]).reduce((a,g)=>a+(g.goals||0),0), 0);
+  const cards = [
+    ['Rows', items.length],
+    ['Unique teams', uniq(items.map(r=>r.team)).length],
+    ['Goals listed', totalGoals]
+  ];
+  els.stats.innerHTML = cards.map(([k,v])=>`<div class="stat"><div class="muted">${k}</div><div class="n">${v}</div></div>`).join('');
+}
+function renderTable(items){
+  els.rows.innerHTML = items.map(r=> `
+    <tr>
+      <td>${r.competition}</td>
+      <td>${r.round}</td>
+      <td>${r.match}</td>
+      <td>${r.team}</td>
+      <td>${(r.best_players||[]).join(', ')}</td>
+      <td>${(r.goal_kickers||[]).map(g=>`${g.player} ${g.goals}`).join(', ')}</td>
+    </tr>`).join('');
+  renderStats(items);
+}
+function applyFilters(){
+  const q = els.search.value.trim().toLowerCase();
+  state.filtered = state.all.filter(r =>
+    (!els.competition.value || r.competition === els.competition.value) &&
+    (!els.round.value || String(r.round) === String(els.round.value)) &&
+    (!els.team.value || r.team === els.team.value) &&
+    (!q || JSON.stringify(r).toLowerCase().includes(q))
+  );
+  renderTable(state.filtered);
+}
+function refillFilters(){
+  const comp = els.competition.value;
+  const base = comp ? state.all.filter(r=>r.competition===comp) : state.all;
+  els.round.innerHTML = '<option value="">All rounds</option>' + uniq(base.map(r=>r.round)).map(v=>`<option>${v}</option>`).join('');
+  const base2 = comp && els.round.value ? base.filter(r=>String(r.round)===String(els.round.value)) : base;
+  els.team.innerHTML = '<option value="">All teams</option>' + uniq(base2.map(r=>r.team)).map(v=>`<option>${v}</option>`).join('');
+}
+function downloadCsv(){
+  const headers = ['competition','round','match','team','best_players','goal_kickers'];
+  const lines = [headers.join(',')].concat(state.filtered.map(r=>[
+    r.competition,
+    r.round,
+    r.match,
+    r.team,
+    (r.best_players||[]).join('; '),
+    (r.goal_kickers||[]).map(g=>`${g.player} ${g.goals}`).join('; ')
+  ].map(csvEscape).join(',')));
+  const blob = new Blob([lines.join('\n')], {type:'text/csv'});
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = 'vafa_filtered.csv';
+  a.click();
+}
+async function init(){
+  const res = await fetch('./data/matches.json');
+  state.all = await res.json();
+  els.competition.innerHTML = '<option value="">All competitions</option>' + uniq(state.all.map(r=>r.competition)).map(v=>`<option>${v}</option>`).join('');
+  refillFilters();
+  state.filtered = [...state.all];
+  renderTable(state.filtered);
+}
+['competition','round','team'].forEach(id=> els[id].addEventListener('change', ()=>{ refillFilters(); applyFilters(); }));
+els.search.addEventListener('input', applyFilters);
+document.getElementById('exportCsv').addEventListener('click', downloadCsv);
+document.getElementById('reset').addEventListener('click', ()=>{ els.competition.value=''; els.round.value=''; els.team.value=''; els.search.value=''; refillFilters(); applyFilters(); });
+document.getElementById('themeToggle').addEventListener('click', ()=>{ document.documentElement.dataset.theme = document.documentElement.dataset.theme === 'dark' ? 'light' : 'dark'; });
+init();
+</script>
+</body>
+</html>

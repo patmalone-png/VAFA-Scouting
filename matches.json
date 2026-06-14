@@ -1,0 +1,26 @@
+[
+  {
+    "competition": "Division 1 Women",
+    "round": 1,
+    "match": "Team A v Team B",
+    "team": "Team A",
+    "best_players": ["Player One", "Player Two", "Player Three"],
+    "goal_kickers": [{"player":"Player One","goals":2},{"player":"Player Four","goals":1}]
+  },
+  {
+    "competition": "Division 1 Women",
+    "round": 1,
+    "match": "Team A v Team B",
+    "team": "Team B",
+    "best_players": ["Player Five", "Player Six", "Player Seven"],
+    "goal_kickers": [{"player":"Player Five","goals":3}]
+  },
+  {
+    "competition": "Premier B Women",
+    "round": 1,
+    "match": "Team C v Team D",
+    "team": "Team C",
+    "best_players": ["Player Eight", "Player Nine", "Player Ten"],
+    "goal_kickers": [{"player":"Player Eight","goals":1},{"player":"Player Eleven","goals":2}]
+  }
+]
