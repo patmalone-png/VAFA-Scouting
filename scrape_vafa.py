@@ -11,7 +11,7 @@ OUT = Path(__file__).resolve().parents[1] / 'data' / 'matches.json'
 SEEDS = [
     {
         'competition': 'Premier B Women',
-        'round_url': 'PASTE_ROUND_URL_HERE'
+        'round_url': 'https://www.vafa.com.au/football/results/scores/?type=results&grade_id=972de8ed-8555-42ce-91de-660850b3e7ea&session_id=2af0bc11-6f71-4c82-93b5-d46fe9bc739f&season=2026&Round=1'
     },
     {
         'competition': 'Division 1 Women',
